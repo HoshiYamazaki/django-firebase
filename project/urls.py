@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from frontend.views import IndexView
+from frontend.views import IndexView, ServiceWorkerView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
+    path('firebase-messaging-sw.js', ServiceWorkerView.as_view(), name='service_worker'),
     path('admin/', admin.site.urls),
 ]

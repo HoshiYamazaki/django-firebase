@@ -12,30 +12,6 @@ firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
 
-messaging.getToken().then(function (currentToken) {
-    if (currentToken) {
-        sendTokenToServer(currentToken);
-        updateUIForPushEnabled(currentToken);
-    } else {
-        console.log('No Instance ID token available. Request permission to generate one.');
-    }
-}).catch(function (err) {
-    console.log('An error occurred while retrieving token. ', err);
-    showToken('Error retrieving Instance ID token. ', err);
-    setTokenSentToServer(false);
-});
-
-messaging.onTokenRefresh(function () {
-    messaging.getToken().then(function (refreshedToken) {
-        console.log('Token refreshed.');
-        setTokenSentToServer(false);
-        sendTokenToServer(refreshedToken);
-    }).catch(function (err) {
-        console.log('Unable to retrieve refreshed token ', err);
-        showToken('Unable to retrieve refreshed token ', err);
-    });
-});
-
 messaging.setBackgroundMessageHandler(function (payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
     var notificationTitle = 'Background Message Title';
